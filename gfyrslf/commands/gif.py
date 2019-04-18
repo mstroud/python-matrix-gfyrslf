@@ -22,8 +22,6 @@ class GifCommand(GfyrslfCommand):
 
 
     def event_handler(self, bot, room, event):
-        logging.info(event)
-
         # Parse command args. TODO: Move to parent class
         args = event['content']['body'].split()
         args.pop(0)
@@ -40,7 +38,7 @@ class GifCommand(GfyrslfCommand):
                 rating=self.rating,
                 lang=self.lang,
                 fmt=self.fmt)
-            logging.info(api_response)
+            logging.debug(api_response)
 
         except ApiException as e:
             logging.warning("Exception when calling DefaultApi->gifs_search_get: {}\n".format(e))

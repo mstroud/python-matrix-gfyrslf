@@ -8,6 +8,7 @@ from matrix_client.api import MatrixRequestError
 
 class GfyrslfBot:
     def __init__(self, cfg='config.yml'):
+        logging.debug("Opening config from: {}".format(cfg))
         with open(cfg, 'r') as cfgfile:
             self.cfg = yaml.load(cfgfile, Loader=yaml.Loader)
 
@@ -42,6 +43,7 @@ class GfyrslfBot:
 
     def add_command(self, module, classname, cfg):
         # Add command modules
+        logging.debug("Adding command class '{}' from module '{}'".format(classname,module))
         try:
             mod = __import__(module, fromlist=[classname])
             cls = getattr(mod, classname)
@@ -56,6 +58,7 @@ class GfyrslfBot:
             return
         
         # Check commands for matches
+        logging.debug("Got non-self {} event from {} in {}".format(event["content"]["msgtype"],event["sender"],event["room_id"]))
         for command in self.commands:
             if command.event_test(room, event):
                 try:
@@ -88,6 +91,8 @@ class GfyrslfBot:
 if __name__ == "__main__":
     import sys
     import time
+
+    logging.basicConfig(level=logging.DEBUG)
 
     # Create an instance of GfyrslfBot
     gbot = GfyrslfBot(cfg='config.yml')
