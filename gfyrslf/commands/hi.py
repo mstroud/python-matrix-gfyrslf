@@ -7,5 +7,4 @@ class HelloCommand(GfyrslfCommand):
         self.command_regex = '^!gfyrslf (hi|(he|hu)llo|howdy)'
 
     def event_handler(self, bot, room, event):
-        logging.info(event)
         room.send_text("Hi, " + event['sender'])
