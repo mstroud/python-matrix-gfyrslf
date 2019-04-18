@@ -1,9 +1,10 @@
 import logging
-from gfyrslf.command import GfyrslfCommand
 import requests
 
 import giphy_client
 from giphy_client.rest import ApiException
+
+from gfyrslf.command import GfyrslfCommand
 
 
 class GifCommand(GfyrslfCommand):
@@ -12,6 +13,7 @@ class GifCommand(GfyrslfCommand):
         self.command_regex = '^!gif'
 
         # Create an instance of the API class
+        # TODO: Add to YAML config
         self.api_instance = giphy_client.DefaultApi()
         self.api_key = 'dc6zaTOxFJmzC'  # str | Giphy API Key.
         self.limit = 1  # int | The maximum number of records to return. (optional) (default to 25)
@@ -22,7 +24,7 @@ class GifCommand(GfyrslfCommand):
 
 
     def event_handler(self, bot, room, event):
-        # Parse command args. TODO: Move to parent class
+        # Parse command args. TODO: Add helper function to parent class for arg parsing
         args = event['content']['body'].split()
         args.pop(0)
         query = ' '.join(args)
