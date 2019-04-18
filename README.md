@@ -4,6 +4,12 @@ A simple, extensible Python 3 [Matrix](https://matrix.org) bot.
 
 Requires the [matrix-python-sdk](https://github.com/matrix-org/matrix-python-sdk) matrix-client module.
 
+Setup
+----------
+    % python setupy.py install
+    % cp config.yml.dist config.yml
+    (edit config.yml to suit your application...)
+    
 Usage
 -----------
 

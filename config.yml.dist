@@ -1,0 +1,22 @@
+matrix:
+  server: '<server>'
+  username: '@<username>:<server>'
+  password: '<password>'
+
+db:
+  sqlitedb: 'gfyrslf.db' # Not yet implemented
+
+bot:
+  name: 'gfyrslf'
+  default_cmd_prefix: '!'
+  announce: False
+
+commands:
+#  help:
+#    classname: 'HelpCommand'
+  gif:
+    classname: 'GifCommand'
+  hi:
+    classname: 'HelloCommand'
+  dice_roll:
+    classname: 'DiceCommand'
