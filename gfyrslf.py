@@ -63,7 +63,6 @@ class GfyrslfBot:
         
         # Check commands for matches
         logging.debug("Got non-self event from {} in {}".format(event["sender"],event["room_id"]))
-        logging.debug(self.commands.values())
         for command in self.commands.values():
             if command.event_test(room, event):
                 try:

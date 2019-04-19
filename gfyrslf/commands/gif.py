@@ -15,6 +15,8 @@ class GifCommand(GfyrslfCommand):
         # Create an instance of the API class
         # TODO: Add to YAML config
         self.api_instance = giphy_client.DefaultApi()
+
+        # Handle configuration
         self.api_key = 'dc6zaTOxFJmzC'  # str | Giphy API Key.
         self.limit = 1  # int | The maximum number of records to return. (optional) (default to 25)
         self.offset = 0  # int | An optional results offset. Defaults to 0. (optional) (default to 0)

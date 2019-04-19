@@ -4,7 +4,7 @@ import re
 
 class GfyrslfCommand(object):
     """Abstract class for commands
-    often listing the methods you're expected to supply."""
+    """
 
     def __init__(self,cmdname,cfg):
         self.cmdname = cmdname
