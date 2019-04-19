@@ -13,10 +13,9 @@ class GfyrslfBot:
             self.cfg = yaml.load(cfgfile, Loader=yaml.Loader)
 
         # Add commands from config file
-        self.commands = []
-        for command in self.cfg['commands'].keys():
-            cmdcfg = self.cfg['commands'][command]
-            self.add_command(str('gfyrslf.commands.' + command), cmdcfg['classname'], cmdcfg)
+        self.commands = {}
+        for cmdname in self.cfg['commands'].keys():
+            self.add_command(cmdname)
 
         # Create client object and login to Matrix server
         self.client = MatrixClient(self.cfg['matrix']['server'])
@@ -31,6 +30,7 @@ class GfyrslfBot:
         except Exception as e:
             logging.error("Invalid server URL: {}".format(e))
             traceback.print_exc()
+            exit()
 
         # Automatically accept invites
         self.client.add_invite_listener(self.handle_invite)
@@ -41,16 +41,20 @@ class GfyrslfBot:
             room.add_listener(self.handle_message)
             self.rooms.append(room_id)
 
-    def add_command(self, module, classname, cfg):
+    def add_command(self, cmdname):
         # Add command modules
-        logging.debug("Adding command class '{}' from module '{}'".format(classname,module))
+        cmdcfg = self.cfg['commands'][cmdname]
+        module = str('gfyrslf.commands.' + cmdname)
+        classname = cmdcfg['classname']
+        logging.debug("Adding command class '{}' from module '{}'".format(classname, module))
         try:
             mod = __import__(module, fromlist=[classname])
             cls = getattr(mod, classname)
-            inst = cls(cfg=cfg)
-            self.commands.append(inst)
+            inst = cls(cmdname,self.cfg)
+            self.commands[cmdname] = inst
         except Exception as e:
             logging.error("Failed to load command classname '{}' from module '{}': {}".format(classname, module, e))
+            traceback.print_exc()
 
     def handle_message(self, room, event):
         # Make sure we didn't send this message
@@ -58,8 +62,9 @@ class GfyrslfBot:
             return
         
         # Check commands for matches
-        logging.debug("Got non-self {} event from {} in {}".format(event["content"]["msgtype"],event["sender"],event["room_id"]))
-        for command in self.commands:
+        logging.debug("Got non-self event from {} in {}".format(event["sender"],event["room_id"]))
+        logging.debug(self.commands.values())
+        for command in self.commands.values():
             if command.event_test(room, event):
                 try:
                     command.event_handler(self, room, event)

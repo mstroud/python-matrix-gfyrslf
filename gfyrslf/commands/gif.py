@@ -8,9 +8,9 @@ from gfyrslf.command import GfyrslfCommand
 
 
 class GifCommand(GfyrslfCommand):
-    def __init__(self, cfg):
-        super().__init__(cfg)
-        self.command_regex = '^!gif'
+    def __init__(self, cmdname, cfg):
+        super().__init__(cmdname, cfg)
+        self.description = "Requests an automatic random GIF post related to a specified query string"
 
         # Create an instance of the API class
         # TODO: Add to YAML config

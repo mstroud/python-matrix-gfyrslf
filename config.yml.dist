@@ -4,19 +4,23 @@ matrix:
   password: '<password>'
 
 db:
-  sqlitedb: 'gfyrslf.db' # Not yet implemented
+  sqlitedb: 'gfyrslf.db'
 
 bot:
-  name: 'gfyrslf'
-  default_cmd_prefix: '!'
+  name: 'gt'
+  cmd_prefix_regex: '^!'
   announce: False
 
 commands:
-#  help:
-#    classname: 'HelpCommand'
+  help:
+    classname: 'HelpCommand'
+    subcmd_regex: '(help|halp)'
   gif:
     classname: 'GifCommand'
+    regex: '^!gift'
   hi:
     classname: 'HelloCommand'
+    subcmd_regex: '(hi|(he|hu)llo|howdy)'
   dice_roll:
     classname: 'DiceCommand'
+    subcmd_regex: 'd\d+'

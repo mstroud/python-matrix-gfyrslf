@@ -3,9 +3,9 @@ import logging
 from gfyrslf.command import GfyrslfCommand
 
 class DiceCommand(GfyrslfCommand):
-    def __init__(self, cfg):
-        super().__init__(cfg)
-        self.command_regex = '^!gfyrslf d'
+    def __init__(self,cmdname,cfg):
+        super().__init__(cmdname,cfg)
+        self.description = "dN performs random dice roll from 1 to N, N<1000"
 
     def event_handler(self, bot, room, event):
         # someone wants a random number
