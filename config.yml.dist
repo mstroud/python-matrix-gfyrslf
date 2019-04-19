@@ -7,7 +7,7 @@ db:
   sqlitedb: 'gfyrslf.db'
 
 bot:
-  name: 'gt'
+  name: 'gfyrslf'
   cmd_prefix_regex: '^!'
   announce: False
 
@@ -17,7 +17,7 @@ commands:
     subcmd_regex: '(help|halp)'
   gif:
     classname: 'GifCommand'
-    regex: '^!gift'
+    regex: '^!gif'
   hi:
     classname: 'HelloCommand'
     subcmd_regex: '(hi|(he|hu)llo|howdy)'
