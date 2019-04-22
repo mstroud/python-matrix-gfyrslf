@@ -2,6 +2,7 @@ import logging
 import requests
 import json
 import urllib
+import random
 
 import giphy_client
 from giphy_client.rest import ApiException
@@ -31,18 +32,20 @@ class GifCommand(GfyrslfCommand):
         args = event['content']['body'].split()
         args.pop(0)
         query = ' '.join(args)
-        #return self.event_handler_giphy(bot, room, query)
-        return self.event_handler_tenor(bot, room, query)
+        return self.event_handler_giphy(bot, room, query)
+        #return self.event_handler_tenor(bot, room, query)
 
     def event_handler_giphy(self, bot, room, query):
         # Give the people a GIF
+        offset = random.randrange(1, 25)
         try:
             # Search Giphy Endpoint
             api_response = self.api_instance.gifs_search_get(
                 self.api_key,
                 query,
                 limit=self.limit,
-                offset=self.offset,
+                #offset=self.offset,
+                offset=offset,
                 rating=self.rating,
                 lang=self.lang,
                 fmt=self.fmt)
@@ -57,7 +60,7 @@ class GifCommand(GfyrslfCommand):
         mxc_url = bot.client.upload(response.content, response.headers['Content-Type'])
 
         # Send the media link to the room
-        room.send_image(mxc_url, api_response.data[0].slug + '(' + response.headers['Content-Type'] + ')',
+        room.send_image(mxc_url, str(offset) + ' ' + api_response.data[0].slug + '(' + response.headers['Content-Type'] + ')',
                         mimetype=response.headers['Content-Type'])
 
     def event_handler_tenor(self, bot, room, query):
