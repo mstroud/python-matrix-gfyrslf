@@ -20,7 +20,6 @@ class GifCommand(GfyrslfCommand):
         self.api_instance = giphy_client.DefaultApi()
 
         # Handle configuration
-        self.api_key = self.cfg['api_key'] # 'dc6zaTOxFJmzC'  # str | Giphy API Key.
         self.limit = 1  # int | The maximum number of records to return. (optional) (default to 25)
         self.offset = 0  # int | An optional results offset. Defaults to 0. (optional) (default to 0)
         self.rating = 'R'  # str | Filters results by specified rating. (optional)
@@ -32,8 +31,8 @@ class GifCommand(GfyrslfCommand):
         args = event['content']['body'].split()
         args.pop(0)
         query = ' '.join(args)
-        return self.event_handler_giphy(bot, room, query)
-        #return self.event_handler_tenor(bot, room, query)
+        #return self.event_handler_giphy(bot, room, query)
+        return self.event_handler_tenor(bot, room, query)
 
     def event_handler_giphy(self, bot, room, query):
         # Give the people a GIF
@@ -41,7 +40,7 @@ class GifCommand(GfyrslfCommand):
         try:
             # Search Giphy Endpoint
             api_response = self.api_instance.gifs_search_get(
-                self.api_key,
+                self.cfg['apis']['giphy']['api_key'],
                 query,
                 limit=self.limit,
                 #offset=self.offset,
@@ -64,14 +63,11 @@ class GifCommand(GfyrslfCommand):
                         mimetype=response.headers['Content-Type'])
 
     def event_handler_tenor(self, bot, room, query):
-        # set the apikey and limit
-        apikey = "LIVDSRZULELA"  # test value
-
         # load the user's anonymous ID from cookies or some other disk storage
         # anon_id = <from db/cookies>
 
         # ELSE - first time user, grab and store their the anonymous ID
-        r = requests.get("https://api.tenor.com/v1/anonid?key=%s" % apikey)
+        r = requests.get("https://api.tenor.com/v1/anonid?key={}".format(self.cfg['apis']['tenor']['api_key']))
 
         if r.status_code == 200:
             anon_id = json.loads(r.content)["anon_id"]
@@ -83,7 +79,7 @@ class GifCommand(GfyrslfCommand):
         query_dict = {
             'q': query,
             'locale': 'en_US',
-            'key': apikey,
+            'key': self.cfg['apis']['tenor']['api_key'],
             'limit':self.limit,
             'anon_id':anon_id,
             'contentfilter':'off',
