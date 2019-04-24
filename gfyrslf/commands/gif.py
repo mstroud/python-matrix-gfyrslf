@@ -31,8 +31,8 @@ class GifCommand(GfyrslfCommand):
         args = event['content']['body'].split()
         args.pop(0)
         query = ' '.join(args)
-        #return self.event_handler_giphy(bot, room, query)
-        return self.event_handler_tenor(bot, room, query)
+        return self.event_handler_giphy(bot, room, query)
+        #return self.event_handler_tenor(bot, room, query)
 
     def event_handler_giphy(self, bot, room, query):
         # Give the people a GIF
