@@ -18,6 +18,7 @@ commands:
   gif:
     classname: 'GifCommand'
     regex: '^!gif'
+    api_key: dc6zaTOxFJmzC
   hi:
     classname: 'HelloCommand'
     subcmd_regex: '(hi|(he|hu)llo|howdy)'
