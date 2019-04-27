@@ -3,6 +3,7 @@ import requests
 import json
 import urllib
 import random
+import re
 
 import giphy_client
 from giphy_client.rest import ApiException
@@ -29,22 +30,28 @@ class GifCommand(GfyrslfCommand):
     def event_handler(self, bot, room, event):
         # Parse command args. TODO: Add helper function to parent class for arg parsing
         args = event['content']['body'].split()
-        args.pop(0)
+        cmd = args.pop(0)
+        match = re.search(self.regex, cmd)
+        self.offset = 0 # Set default offset
+        if match.group(1) is not None:
+            if match.group(1) == 'r':
+                self.offset = random.randrange(1, 42)
+            else:
+                self.offset = int(match.group(1))
+                
         query = ' '.join(args)
         return self.event_handler_giphy(bot, room, query)
         #return self.event_handler_tenor(bot, room, query)
 
     def event_handler_giphy(self, bot, room, query):
         # Give the people a GIF
-        offset = random.randrange(1, 25)
         try:
             # Search Giphy Endpoint
             api_response = self.api_instance.gifs_search_get(
                 self.cfg['apis']['giphy']['api_key'],
                 query,
                 limit=self.limit,
-                #offset=self.offset,
-                offset=offset,
+                offset=self.offset,
                 rating=self.rating,
                 lang=self.lang,
                 fmt=self.fmt)
@@ -59,7 +66,7 @@ class GifCommand(GfyrslfCommand):
         mxc_url = bot.client.upload(response.content, response.headers['Content-Type'])
 
         # Send the media link to the room
-        room.send_image(mxc_url, str(offset) + ' ' + api_response.data[0].slug + '(' + response.headers['Content-Type'] + ')',
+        room.send_image(mxc_url, str(self.offset) + ' ' + api_response.data[0].slug + '(' + response.headers['Content-Type'] + ')',
                         mimetype=response.headers['Content-Type'])
 
     def event_handler_tenor(self, bot, room, query):

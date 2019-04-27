@@ -17,7 +17,7 @@ commands:
     subcmd_regex: '(help|halp)'
   gif:
     classname: 'GifCommand'
-    regex: '^!gif'
+    regex: '^!gif(r|\d+)?'
     apis:
       tenor:
         api_key: 'LIVDSRZULELA'
