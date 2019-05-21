@@ -32,6 +32,10 @@ class GfyrslfBot:
             traceback.print_exc()
             exit()
 
+        # Set display name TODO: Clean up with try/except
+        if 'display_name' in self.cfg['bot'].keys():
+            self.client.api.set_display_name(self.client.user_id,self.cfg['bot']['display_name'])
+        
         # Automatically accept invites
         self.client.add_invite_listener(self.handle_invite)
         self.rooms = []
