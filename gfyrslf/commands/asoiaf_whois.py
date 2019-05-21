@@ -11,7 +11,7 @@ from giphy_client.rest import ApiException
 from gfyrslf.command import GfyrslfCommand
 
 
-class GifCommand(GfyrslfCommand):
+class ASOIAFWhoisCommand(GfyrslfCommand):
     def __init__(self, cmdname, cfg):
         super().__init__(cmdname, cfg)
         self.description = "Requests an automatic random GIF post related to a specified query string"
