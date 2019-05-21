@@ -8,7 +8,7 @@ db:
 
 bot:
   name: 'bottyb'
-  display_name: 'King Botbert Baratheon'
+  display_name: 'King Robot Baratheon'
   cmd_prefix_regex: '^!'
   announce: False
 
@@ -22,3 +22,8 @@ commands:
   asoiaf_search:
     classname: 'ASOIAFSearchCommand'
     regex: '^!search (.+)'
+  asoiaf_bottyb:
+    classname: 'ASOIAFBottyB'
+    quotedb: 'bobbyb-quotes.db'
+    regex: '(?i)botty b'
+  
