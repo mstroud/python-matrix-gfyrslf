@@ -1,31 +1,24 @@
 matrix:
-  server: '<server>'
-  username: '@<username>:<server>'
-  password: '<password>'
+  server: 'SERVER'
+  username: '@USER:HOMESERVER'
+  password: 'PASSWORD'
 
 db:
-  sqlitedb: 'gfyrslf.db'
+  sqlitedb: 'bottyb.db'
 
 bot:
-  name: 'gfyrslf'
+  name: 'bottyb'
+  display_name: 'King Botbert Baratheon'
   cmd_prefix_regex: '^!'
   announce: False
 
 commands:
   help:
     classname: 'HelpCommand'
-    subcmd_regex: '(help|halp)'
-  gif:
-    classname: 'GifCommand'
-    regex: '^!gif(r|\d+)?'
-    apis:
-      tenor:
-        api_key: 'LIVDSRZULELA'
-      giphy:
-        api_key: 'dc6zaTOxFJmzC'
-  hi:
-    classname: 'HelloCommand'
-    subcmd_regex: '(hi|(he|hu)llo|howdy)'
-  dice_roll:
-    classname: 'DiceCommand'
-    subcmd_regex: 'd\d+'
+    subcmd_regex: '(h|help|halp)'
+  asoiaf_whois:
+    classname: 'ASOIAFWhoisCommand'
+    regex: '^!whois (.+)'
+  asoiaf_search:
+    classname: 'ASOIAFSearchCommand'
+    regex: '^!search (.+)'
