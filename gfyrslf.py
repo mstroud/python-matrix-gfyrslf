@@ -32,6 +32,19 @@ class GfyrslfBot:
             traceback.print_exc()
             exit()
 
+        # Set display name TODO: Clean up with try/except
+        if 'display_name' in self.cfg['bot']:
+            self.client.api.set_display_name(self.client.user_id,self.cfg['bot']['display_name'])
+        
+        # Set avatar image (if not set, or if changed)
+        avatar_url = self.client.api.get_avatar_url(self.client.user_id)
+        if avatar_url is not None:
+            # TODO: check for differences
+            pass
+        else:
+            if 'avatar_url' in self.cfg['bot']:
+                self.client.api.set_avatar_url(self.client.user_id, self.cfg['bot']['avatar_url'])
+            
         # Automatically accept invites
         self.client.add_invite_listener(self.handle_invite)
         self.rooms = []

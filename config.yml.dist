@@ -8,6 +8,8 @@ db:
 
 bot:
   name: 'gfyrslf'
+  avatar_url: 'mxc://AVATAR_URL'
+  display_name: 'Gfyrslf'
   cmd_prefix_regex: '^!'
   announce: False
 
