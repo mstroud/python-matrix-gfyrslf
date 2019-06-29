@@ -75,3 +75,6 @@ envs3
 
 # Configuration file
 config.yml
+
+# SQLite db
+*.db
