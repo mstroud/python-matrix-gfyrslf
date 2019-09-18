@@ -69,6 +69,10 @@ class GfyrslfBot:
             logging.error("Failed to load command classname '{}' from module '{}': {}".format(classname, module, e))
             traceback.print_exc()
 
+    def handle_exception(self,e):
+        logging.debug("Got exception in listen thread: {}".format(e))
+        pass
+        
     def handle_message(self, room, event):
         # Make sure we didn't send this message
         if event["sender"] == self.client.user_id:
@@ -101,7 +105,7 @@ class GfyrslfBot:
 
     def run(self):
         # Starts listening for messages
-        self.client.start_listener_thread()
+        self.client.start_listener_thread(exception_handler=self.handle_exception)
         return self.client.sync_thread
 
 
@@ -115,12 +119,18 @@ if __name__ == "__main__":
     gbot = GfyrslfBot(cfg='config.yml')
 
     # Start polling
-    gbot.run()
+    thread = gbot.run()
 
     # Wait for exit
     while True:
         try:
-            time.sleep(1)
+            time.sleep(1)        
+            if not thread.isAlive():
+                logging.info('Listen thread died, restarting...')
+                thread.join(1)
+                thread = gbot.run()
+                
         except KeyboardInterrupt:
-            logging.info('Exiting...')
+            logging.info('Joining threads...')
+            logging.info('Exiting({})...'.format(thread.join(1)))
             sys.exit()
